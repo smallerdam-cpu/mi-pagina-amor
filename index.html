@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ============================================== -->
+    <!-- ✅ PUEDES MODIFICAR: El título de la pestaña -->
+    <!-- ============================================== -->
+    <title>Para Mi Amor Eterno</title>
+    
+    <!-- ❌ NO TOCAR: Scripts y fuentes necesarias -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <!-- ❌ NO TOCAR: Todos los estilos CSS -->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffe4e1 0%, #ffc0cb 50%, #ffb6c1 100%);
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .romantic-font {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .elegant-font {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        #heart-container {
+            cursor: pointer;
+            transition: transform 0.5s ease;
+            position: relative;
+            z-index: 20;
+        }
+
+        .heart {
+            background-color: #ff4d6d;
+            display: inline-block;
+            height: 100px;
+            position: relative;
+            top: 0;
+            transform: rotate(-45deg);
+            width: 100px;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 30px rgba(255, 77, 109, 0.5);
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            background-color: #ff4d6d;
+            border-radius: 50%;
+            height: 100px;
+            position: absolute;
+            width: 100px;
+        }
+
+        .heart:before {
+            top: -50px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 50px;
+            top: 0;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1) rotate(-45deg); box-shadow: 0 0 30px rgba(255, 77, 109, 0.5); }
+            50% { transform: scale(1.1) rotate(-45deg); box-shadow: 0 0 50px rgba(255, 77, 109, 0.8); }
+            100% { transform: scale(1) rotate(-45deg); box-shadow: 0 0 30px rgba(255, 77, 109, 0.5); }
+        }
+
+        .hidden-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+            pointer-events: none;
+        }
+
+        .visible-content {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        #timer {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(255, 100, 130, 0.2);
+        }
+
+        .reason-item {
+            transition: all 0.3s ease;
+        }
+
+        .reason-item:hover {
+            transform: translateX(10px) scale(1.02);
+        }
+
+        .photo-placeholder {
+            background: linear-gradient(45deg, #ffd1dc, #ffb6c1);
+            transition: all 0.3s ease;
+        }
+
+        .photo-placeholder:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.3);
+        }
+
+        .kiss-btn {
+            background: linear-gradient(135deg, #ff6b8a, #ff4d6d);
+            transition: all 0.3s ease;
+            animation: gentlePulse 2s infinite;
+        }
+
+        .kiss-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.5);
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 77, 109, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(255, 77, 109, 0.6); }
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #fff 0%, transparent 70%);
+            border-radius: 50%;
+            animation: sparkleAnim 1s ease-out forwards;
+            z-index: 100;
+        }
+
+        @keyframes sparkleAnim {
+            0% { transform: scale(0); opacity: 1; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.5); opacity: 0; }
+        }
+
+        .message-fade {
+            animation: messageFade 0.5s ease;
+        }
+
+        @keyframes messageFade {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .kiss-animation {
+            position: fixed;
+            font-size: 3rem;
+            animation: kissFloat 2s ease-out forwards;
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        @keyframes kissFloat {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.5) rotate(10deg); opacity: 1; }
+            100% { transform: scale(2) translateY(-100px) rotate(-10deg); opacity: 0; }
+        }
+
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b8a, #ff4d6d);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .music-btn.playing {
+            animation: musicPulse 1s infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
+            50% { box-shadow: 0 4px 30px rgba(255, 77, 109, 0.8); }
+        }
+
+        .scroll-section {
+            scroll-margin-top: 20px;
+        }
+
+        .photo-frame {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .photo-frame:hover::before {
+            left: 100%;
+        }
+
+        .photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ❌ NO TOCAR: Canvas para animaciones -->
+    <canvas id="canvas"></canvas>
+
+    <!-- ❌ NO TOCAR: Botón de Música (la funcionalidad) -->
+    <button class="music-btn" onclick="toggleMusic()" title="Música">
+        <span id="music-icon" class="text-white text-xl">🎵</span>
+    </button>
+
+    <!-- ============================================== -->
+    <!-- ✅ PUEDES MODIFICAR: La canción de fondo       -->
+    <!-- Cambia el "src" por el link de tu canción     -->
+    <!-- ============================================== -->
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/pbw0mc.mp3" type="audio/mpeg">  
+    </audio>
+
+    <div class="min-h-screen flex items-center justify-center px-4 py-10">
+        <div class="text-center max-w-2xl w-full">
+            
+            <!-- ❌ NO TOCAR: Zona de interacción inicial -->
+            <div id="interaction-zone" class="min-h-[80vh] flex flex-col items-center justify-center">
+                <div id="heart-container" onclick="startExperience()">
+                    <div class="heart"></div>
+                    <!-- ✅ PUEDES MODIFICAR: El texto debajo del corazón -->
+                    <p class="mt-20 text-red-500 font-bold animate-bounce romantic-font text-2xl">Haz clic en mi corazón</p>
+                </div>
+            </div>
+
+            <!-- Contenido Principal -->
+            <div id="message-container" class="hidden-content hidden flex flex-col items-center gap-8">
+                
+                <!-- ============================================== -->
+                <!-- ✅ PUEDES MODIFICAR: Título Principal          -->
+                <!-- ============================================== -->
+                <div class="floating">
+                    <h1 class="elegant-font text-6xl md:text-7xl text-red-600 mb-2 drop-shadow-lg">Te Amo</h1>
+                    <p class="romantic-font text-3xl text-red-400">Muchísimo ❤️</p>
+                </div>
+                
+                <!-- ❌ NO TOCAR: Estructura del mensaje rotativo -->
+                <!-- (Los mensajes se cambian en JavaScript abajo) -->
+                <div class="glass-card p-6 rounded-3xl w-full">
+                    <p id="love-message" class="text-lg text-gray-700 italic leading-relaxed message-fade">
+                        "Desde que entraste en mi vida, cada momento se ha convertido en una aventura mágica."
+                    </p>
+                    <button onclick="changeMessage()" class="mt-4 text-red-400 hover:text-red-600 transition text-sm">
+                        ✨ Ver otro mensaje ✨
+                    </button>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- ✅ PUEDES MODIFICAR: Texto del botón de beso   -->
+                <!-- ============================================== -->
+                <button onclick="sendKiss()" class="kiss-btn text-white px-8 py-4 rounded-full text-lg font-medium shadow-lg">
+                    💋 Tocame para darte un beso 💋 
+                </button>
+                
+                <!-- ❌ NO TOCAR: Estructura del contador -->
+                <!-- (La fecha se cambia en JavaScript abajo) -->
+                <div class="glass-card p-6 rounded-3xl w-full scroll-section">
+                    <p class="text-red-500 font-medium mb-4 uppercase tracking-widest text-sm">💕 Nuestro Tiempo Juntos 💕</p>
+                    <div id="timer" class="flex justify-around gap-2 text-red-600 font-bold">
+                        <div class="flex flex-col">
+                            <span id="days" class="text-4xl md:text-5xl">00</span>
+                            <span class="text-xs text-gray-500 uppercase">Días</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span id="hours" class="text-4xl md:text-5xl">00</span>
+                            <span class="text-xs text-gray-500 uppercase">Horas</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span id="minutes" class="text-4xl md:text-5xl">00</span>
+                            <span class="text-xs text-gray-500 uppercase">Min</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span id="seconds" class="text-4xl md:text-5xl">00</span>
+                            <span class="text-xs text-gray-500 uppercase">Seg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- ✅ PUEDES MODIFICAR: Razones por las que amas  -->
+                <!-- Cambia los textos dentro de cada <span>        -->
+                <!-- Puedes agregar o quitar razones copiando       -->
+                <!-- los bloques "reason-item"                      -->
+                <!-- ============================================== -->
+                <div class="glass-card p-6 rounded-3xl w-full scroll-section">
+                    <p class="text-red-500 font-medium mb-4 uppercase tracking-widest text-sm">💝 Razones por las que te amo 💝</p>
+                    <div class="space-y-3 text-left">
+                        
+                        <!-- RAZÓN 1 - ✅ Modifica el texto -->
+                        <div class="reason-item flex items-center gap-3 p-3 bg-white/30 rounded-xl cursor-pointer">
+                            <span class="text-2xl">💖</span>
+                            <span class="text-gray-700">Tu sonrisa ilumina mis días más oscuros</span>
+                        </div>
+                        
+                        <!-- RAZÓN 2 - ✅ Modifica el texto -->
+                        <div class="reason-item flex items-center gap-3 p-3 bg-white/30 rounded-xl cursor-pointer">
+                            <span class="text-2xl">💖</span>
+                            <span class="text-gray-700">Me haces reír cuando más lo necesito</span>
+                        </div>
+                        
+                        <!-- RAZÓN 3 - ✅ Modifica el texto -->
+                        <div class="reason-item flex items-center gap-3 p-3 bg-white/30 rounded-xl cursor-pointer">
+                            <span class="text-2xl">💖</span>
+                            <span class="text-gray-700">Me gustan tus ojos</span>
+                        </div>
+                        
+                        <!-- RAZÓN 4 - ✅ Modifica el texto -->
+                        <div class="reason-item flex items-center gap-3 p-3 bg-white/30 rounded-xl cursor-pointer">
+                            <span class="text-2xl">💖</span>
+                            <span class="text-gray-700">Cada momento contigo es especial</span>
+                        </div>
+                        
+                        <!-- RAZÓN 5 - ✅ Modifica el texto -->
+                        <div class="reason-item flex items-center gap-3 p-3 bg-white/30 rounded-xl cursor-pointer">
+                            <span class="text-2xl">💖</span>
+                            <span class="text-gray-700">Eres simplemente perfecta para mí</span>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- ✅ PUEDES MODIFICAR: Galería de Fotos          -->
+                <!-- Reemplaza los emojis por tus fotos reales     -->
+                <!-- Ejemplo: <img src="tu-foto.jpg" class="photo-img"> -->
+                <!-- ============================================== -->
+                <div class="glass-card p-6 rounded-3xl w-full scroll-section">
+                    <p class="text-red-500 font-medium mb-4 uppercase tracking-widest text-sm">📸 Nuestros Momentos 📸</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        
+                        <!-- FOTO 1 - ✅ Reemplaza con tu foto -->
+                        <!-- Para poner foto: borra el <span> y pon: -->
+                        <!-- <img src="LINK-DE-TU-FOTO" class="photo-img" alt="Nuestra foto"> -->
+                        <a href="https://ibb.co/LzKHmtZv"><img src="https://i.ibb.co/WWCjZy2s/Whats-App-Image-2026-01-23-at-11-58-18-AM.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-18-AM" border="0"></a>
+                        
+                        <!-- FOTO 2 - ✅ Reemplaza con tu foto -->
+                        <a href="https://ibb.co/VWGb4KKc"><img src="https://i.ibb.co/WWX7JTT4/Whats-App-Image-2026-01-23-at-11-58-17-AM-2.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-17-AM-2" border="0"></a>
+                        
+                        <!-- FOTO 3 - ✅ Reemplaza con tu foto -->
+                        <a href="https://ibb.co/n8mrbvy3"><img src="https://i.ibb.co/k6BKxfT3/Whats-App-Image-2026-01-23-at-11-58-17-AM-1.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-17-AM-1" border="0"></a>
+                        
+                        <!-- FOTO 4 - ✅ Reemplaza con tu foto -->
+                        <a href="https://ibb.co/HDdWTdFt"><img src="https://i.ibb.co/nsCHMCg7/Whats-App-Image-2026-01-23-at-12-11-23-PM.jpg" alt="Whats-App-Image-2026-01-23-at-12-11-23-PM" border="0"></a>
+                        
+                        <!-- FOTO 5 - ✅ Reemplaza con tu foto -->
+                        <a href="https://ibb.co/mr81FtBr"><img src="https://i.ibb.co/Q7dzjnc7/Whats-App-Image-2026-01-23-at-11-58-16-AM.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-16-AM" border="0"></a>
+                        
+                        <!-- FOTO 6 - ✅ Reemplaza con tu foto -->
+                        <a href="https://ibb.co/pBfVb808"><img src="https://i.ibb.co/q3Nq7fyf/Whats-App-Image-2026-01-23-at-12-11-23-PM-1.jpg" alt="Whats-App-Image-2026-01-23-at-12-11-23-PM-1" border="0"></a>
+                        
+                    </div>
+                   
+                </div>
+
+                <!-- ============================================== -->
+                <!-- ✅ PUEDES MODIFICAR: Mensaje Final             -->
+                <!-- ============================================== -->
+                <div class="glass-card p-8 rounded-3xl w-full text-center">
+                    <p class="elegant-font text-4xl text-red-500 mb-4">Para siempre tuyo/a</p>
+                    <p class="text-gray-600">Con todo mi amor ❤️</p>
+                    <div class="mt-4 flex justify-center gap-2">
+                        <span class="text-2xl animate-bounce" style="animation-delay: 0s">💖</span>
+                        <span class="text-2xl animate-bounce" style="animation-delay: 0.1s">💖</span>
+                        <span class="text-2xl animate-bounce" style="animation-delay: 0.2s">💖</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ╔════════════════════════════════════════════════════════════╗
+        // ║                                                            ║
+        // ║   ✅✅✅ ZONA DE PERSONALIZACIÓN - MODIFICA AQUÍ ✅✅✅     ║
+        // ║                                                            ║
+        // ╚════════════════════════════════════════════════════════════╝
+
+        // ─────────────────────────────────────────────────────────────
+        // 📅 FECHA DE INICIO DE SU RELACIÓN
+        // ─────────────────────────────────────────────────────────────
+        // Formato: 'AÑO-MES-DIA' (ejemplo: '2023-02-14' = 14 de febrero 2023)
+        const startDate = new Date('2024-04-23T00:00:00'); 
+        
+        // ─────────────────────────────────────────────────────────────
+        // 💕 INICIALES DE LA PAREJA (aparecen en el árbol)
+        // ─────────────────────────────────────────────────────────────
+        // Ejemplo: "J + M" o "Carlos ♥ María"
+        const initials = "Smith ♥ Daniela";
+        
+        // ─────────────────────────────────────────────────────────────
+        // 💌 MENSAJES DE AMOR (aparecen de forma rotativa)
+        // ─────────────────────────────────────────────────────────────
+        // Puedes agregar, quitar o modificar mensajes
+        // Cada mensaje debe estar entre comillas y separado por coma
+        const loveMessages = [
+            "Desde que entraste en mi vida, cada momento se ha convertido en una aventura mágica.",
+            "Eres mi sol en los días nublados y mi razón para sonreír cada mañana.",
+            "Contigo aprendí que el amor verdadero existe y está justo a mi lado.",
+            "Cada día te amo más que ayer, pero menos que mañana.",
+            "Eres el sueño del que nunca quiero despertar.",
+            "Mi lugar favorito en el mundo es a tu lado.",
+            "Gracias por amarme tal como soy.",
+            "Eres la mejor cosa que me ha pasado en la vida."
+            // ✅ Puedes agregar más mensajes aquí, ejemplo:
+            // "Tu mensaje personalizado aquí.",
+        ];
+
+        // ╔════════════════════════════════════════════════════════════╗
+        // ║                                                            ║
+        // ║   ❌❌❌ NO MODIFICAR NADA DEBAJO DE ESTA LÍNEA ❌❌❌      ║
+        // ║                                                            ║
+        // ║   El código de abajo hace que todo funcione.              ║
+        // ║   Si lo modificas, la página puede dejar de funcionar.    ║
+        // ║                                                            ║
+        // ╚════════════════════════════════════════════════════════════╝
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationStarted = false;
+        let currentMessageIndex = 0;
+        let isPlaying = false;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        document.addEventListener('mousemove', (e) => {
+            if (animationStarted && Math.random() > 0.85) {
+                createSparkle(e.clientX, e.clientY);
+            }
+        });
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1000);
+        }
+
+        class Particle {
+            constructor(type = 'heart') {
+                this.type = type;
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = Math.random() * 15 + 8;
+                this.speed = Math.random() * 2 + 0.5;
+                this.velX = (Math.random() - 0.5) * 1.5;
+                this.opacity = Math.random() * 0.5 + 0.5;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 2;
+                this.type = Math.random() > 0.7 ? 'petal' : 'heart';
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += this.velX + Math.sin(this.y / 30) * 0.5;
+                this.rotation += this.rotationSpeed;
+                if (this.y > canvas.height + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.globalAlpha = this.opacity;
+                
+                if (this.type === 'heart') {
+                    ctx.fillStyle = '#ff4d6d';
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.bezierCurveTo(-this.size / 2, -this.size / 2, -this.size, this.size / 3, 0, this.size);
+                    ctx.bezierCurveTo(this.size, this.size / 3, this.size / 2, -this.size / 2, 0, 0);
+                    ctx.fill();
+                } else {
+                    ctx.fillStyle = `hsl(${340 + Math.random() * 20}, 80%, 70%)`;
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, this.size / 2, this.size, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                ctx.restore();
+            }
+        }
+
+        function initParticles(isBurst = false) {
+            const count = isBurst ? 80 : 40;
+            for (let i = 0; i < count; i++) {
+                let p = new Particle();
+                if (isBurst) {
+                    p.x = canvas.width / 2;
+                    p.y = canvas.height / 2;
+                    p.speed = Math.random() * 5 + 2;
+                    p.velX = (Math.random() - 0.5) * 12;
+                }
+                particles.push(p);
+            }
+        }
+
+        function drawTree() {
+            const centerX = canvas.width / 2;
+            const bottomY = canvas.height;
+            
+            ctx.beginPath();
+            ctx.moveTo(centerX - 25, bottomY);
+            ctx.quadraticCurveTo(centerX, bottomY - 150, centerX - 12, bottomY - 280);
+            ctx.lineTo(centerX + 12, bottomY - 280);
+            ctx.quadraticCurveTo(centerX, bottomY - 150, centerX + 25, bottomY);
+            ctx.fillStyle = 'rgba(93, 64, 55, 0.3)';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, bottomY - 200);
+            ctx.quadraticCurveTo(centerX - 80, bottomY - 280, centerX - 130, bottomY - 260);
+            ctx.moveTo(centerX, bottomY - 220);
+            ctx.quadraticCurveTo(centerX + 80, bottomY - 300, centerX + 130, bottomY - 280);
+            ctx.moveTo(centerX, bottomY - 180);
+            ctx.quadraticCurveTo(centerX - 60, bottomY - 240, centerX - 100, bottomY - 220);
+            ctx.moveTo(centerX, bottomY - 190);
+            ctx.quadraticCurveTo(centerX + 60, bottomY - 260, centerX + 100, bottomY - 240);
+            ctx.strokeStyle = 'rgba(93, 64, 55, 0.25)';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            const heartX = centerX;
+            const heartY = bottomY - 150;
+            const heartSize = 25;
+            
+            ctx.beginPath();
+            ctx.moveTo(heartX, heartY + heartSize / 2);
+            ctx.bezierCurveTo(heartX - heartSize / 2, heartY, heartX - heartSize, heartY + heartSize / 2, heartX, heartY + heartSize);
+            ctx.bezierCurveTo(heartX + heartSize, heartY + heartSize / 2, heartX + heartSize / 2, heartY, heartX, heartY + heartSize / 2);
+            ctx.strokeStyle = 'rgba(139, 90, 43, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            ctx.font = 'bold 10px Quicksand';
+            ctx.fillStyle = 'rgba(139, 90, 43, 0.6)';
+            ctx.textAlign = 'center';
+            ctx.fillText(initials, heartX, heartY + heartSize / 2 + 4);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (animationStarted) {
+                drawTree();
+            }
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        function changeMessage() {
+            currentMessageIndex = (currentMessageIndex + 1) % loveMessages.length;
+            const msgElement = document.getElementById('love-message');
+            msgElement.style.opacity = '0';
+            setTimeout(() => {
+                msgElement.textContent = `"${loveMessages[currentMessageIndex]}"`;
+                msgElement.style.opacity = '1';
+                msgElement.classList.remove('message-fade');
+                void msgElement.offsetWidth;
+                msgElement.classList.add('message-fade');
+            }, 300);
+        }
+
+        function sendKiss() {
+            const kisses = ['💋', '😘', '💕', '❤️', '💖'];
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const kiss = document.createElement('div');
+                    kiss.className = 'kiss-animation';
+                    kiss.textContent = kisses[Math.floor(Math.random() * kisses.length)];
+                    kiss.style.left = (Math.random() * 60 + 20) + '%';
+                    kiss.style.top = (Math.random() * 40 + 30) + '%';
+                    document.body.appendChild(kiss);
+                    setTimeout(() => kiss.remove(), 2000);
+                }, i * 150);
+            }
+        }
+
+        function toggleMusic() {
+            const audio = document.getElementById('bgMusic');
+            const btn = document.querySelector('.music-btn');
+            const icon = document.getElementById('music-icon');
+            
+            if (isPlaying) {
+                audio.pause();
+                icon.textContent = '🎵';
+                btn.classList.remove('playing');
+            } else {
+                audio.play().catch(e => console.log('Audio play failed:', e));
+                icon.textContent = '🔊';
+                btn.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function startExperience() {
+            if (animationStarted) return;
+            animationStarted = true;
+
+            const heartContainer = document.getElementById('heart-container');
+            const interactionZone = document.getElementById('interaction-zone');
+            const messageContainer = document.getElementById('message-container');
+
+            heartContainer.style.transform = 'scale(2) rotate(360deg)';
+            heartContainer.style.opacity = '0';
+            heartContainer.style.transition = 'all 0.8s ease-out';
+
+            initParticles(true);
+
+            setTimeout(() => {
+                interactionZone.classList.add('hidden');
+                messageContainer.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    messageContainer.classList.add('visible-content');
+                    document.body.style.overflow = 'auto';
+                }, 100);
+                
+                animate();
+                updateTimer();
+                setInterval(updateTimer, 1000);
+                setInterval(changeMessage, 10000);
+            }, 600);
+        }
+    </script>
+</body>
+</html>
