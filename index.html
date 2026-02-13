@@ -36,15 +36,16 @@
         }
 
         #heart-container {
-            cursor: pointer;
+            cursor: default; /* login usa botón en el formulario */
             transition: transform 0.5s ease;
             position: relative;
             z-index: 20;
         }
 
+        /* Corazón original (se mantiene por compatibilidad, pero oculto) */
         .heart {
+            display: none;
             background-color: #ff4d6d;
-            display: inline-block;
             height: 100px;
             position: relative;
             top: 0;
@@ -53,7 +54,6 @@
             animation: pulse 1.5s infinite;
             box-shadow: 0 0 30px rgba(255, 77, 109, 0.5);
         }
-
         .heart:before,
         .heart:after {
             content: "";
@@ -63,17 +63,8 @@
             position: absolute;
             width: 100px;
         }
-
-        .heart:before {
-            top: -50px;
-            left: 0;
-        }
-
-        .heart:after {
-            left: 50px;
-            top: 0;
-        }
-
+        .heart:before { top: -50px; left: 0; }
+        .heart:after { left: 50px; top: 0; }
         @keyframes pulse {
             0% { transform: scale(1) rotate(-45deg); box-shadow: 0 0 30px rgba(255, 77, 109, 0.5); }
             50% { transform: scale(1.1) rotate(-45deg); box-shadow: 0 0 50px rgba(255, 77, 109, 0.8); }
@@ -283,10 +274,32 @@
             
             <!-- ❌ NO TOCAR: Zona de interacción inicial -->
             <div id="interaction-zone" class="min-h-[80vh] flex flex-col items-center justify-center">
-                <div id="heart-container" onclick="startExperience()">
-                    <div class="heart"></div>
-                    <!-- ✅ PUEDES MODIFICAR: El texto debajo del corazón -->
-                    <p class="mt-20 text-red-500 font-bold animate-bounce romantic-font text-2xl">Haz clic en mi corazón</p>
+                <!-- Mantener el id heart-container para la animación de startExperience -->
+                <div id="heart-container">
+                    <!-- Login de acceso -->
+                    <div class="glass-card p-6 rounded-3xl w-full max-w-md mx-auto">
+                        <p class="text-red-500 font-medium mb-4 uppercase tracking-widest text-sm">💞 Acceso 💞</p>
+                        <h2 class="romantic-font text-3xl text-red-600 mb-6">Inicia sesión para continuar</h2>
+
+                        <form onsubmit="login(event)" class="space-y-4">
+                            <div>
+                                <label for="login-name" class="block text-left text-sm text-gray-700 mb-1">Usuario</label>
+                                <input id="login-name" type="text" class="w-full px-4 py-3 rounded-xl border border-white/50 bg-white/70 focus:outline-none focus:ring-2 focus:ring-red-300" placeholder="daniela" value="daniela" autocomplete="username">
+                            </div>
+                            <div>
+                                <label for="login-pass" class="block text-left text-sm text-gray-700 mb-1">Contraseña</label>
+                                <input id="login-pass" type="password" class="w-full px-4 py-3 rounded-xl border border-white/50 bg-white/70 focus:outline-none focus:ring-2 focus:ring-red-300" placeholder="Ingresa la contraseña" autocomplete="current-password" required>
+                            </div>
+                            <p id="login-error" class="text-red-600 text-sm hidden">Credenciales incorrectas. Usuario: “daniela” • Contraseña: “love”.</p>
+                            <button id="login-btn" type="submit" class="kiss-btn text-white px-6 py-3 rounded-xl w-full font-semibold">
+                                Entrar
+                            </button>
+                        </form>
+
+                        <p class="mt-6 text-red-500 font-bold animate-bounce romantic-font text-xl">
+                            Usuario: daniela • Contraseña: love
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -396,24 +409,22 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         
                         <!-- FOTO 1 - ✅ Reemplaza con tu foto -->
-                        <!-- Para poner foto: borra el <span> y pon: -->
-                        <!-- <img src="LINK-DE-TU-FOTO" class="photo-img" alt="Nuestra foto"> -->
-                        <a href="https://ibb.co/LzKHmtZv"><img src="https://i.ibb.co/WWCjZy2s/Whats-App-Image-2026-01-23-at-11-58-18-AM.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-18-AM" border="0"></a>
+                        <a href="https://ibb.co/LzKHmtZv"><img src="https://i.ibb.co/WWCjZy2s/Whats-App-Image-2026-01-23-at-11-58-18-AM.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-18-AM" border="0">[...]
                         
                         <!-- FOTO 2 - ✅ Reemplaza con tu foto -->
-                        <a href="https://ibb.co/VWGb4KKc"><img src="https://i.ibb.co/WWX7JTT4/Whats-App-Image-2026-01-23-at-11-58-17-AM-2.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-17-AM-2" border="0"></a>
+                        <a href="https://ibb.co/VWGb4KKc"><img src="https://i.ibb.co/WWX7JTT4/Whats-App-Image-2026-01-23-at-11-58-17-AM-2.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-17-AM-2" border=[...]
                         
                         <!-- FOTO 3 - ✅ Reemplaza con tu foto -->
-                        <a href="https://ibb.co/n8mrbvy3"><img src="https://i.ibb.co/k6BKxfT3/Whats-App-Image-2026-01-23-at-11-58-17-AM-1.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-17-AM-1" border="0"></a>
+                        <a href="https://ibb.co/n8mrbvy3"><img src="https://i.ibb.co/k6BKxfT3/Whats-App-Image-2026-01-23-at-11-58-17-AM-1.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-17-AM-1" border=[...]
                         
                         <!-- FOTO 4 - ✅ Reemplaza con tu foto -->
-                        <a href="https://ibb.co/HDdWTdFt"><img src="https://i.ibb.co/nsCHMCg7/Whats-App-Image-2026-01-23-at-12-11-23-PM.jpg" alt="Whats-App-Image-2026-01-23-at-12-11-23-PM" border="0"></a>
+                        <a href="https://ibb.co/HDdWTdFt"><img src="https://i.ibb.co/nsCHMCg7/Whats-App-Image-2026-01-23-at-12-11-23-PM.jpg" alt="Whats-App-Image-2026-01-23-at-12-11-23-PM" border="0">[...]
                         
                         <!-- FOTO 5 - ✅ Reemplaza con tu foto -->
-                        <a href="https://ibb.co/mr81FtBr"><img src="https://i.ibb.co/Q7dzjnc7/Whats-App-Image-2026-01-23-at-11-58-16-AM.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-16-AM" border="0"></a>
+                        <a href="https://ibb.co/mr81FtBr"><img src="https://i.ibb.co/Q7dzjnc7/Whats-App-Image-2026-01-23-at-11-58-16-AM.jpg" alt="Whats-App-Image-2026-01-23-at-11-58-16-AM" border="0">[...]
                         
                         <!-- FOTO 6 - ✅ Reemplaza con tu foto -->
-                        <a href="https://ibb.co/pBfVb808"><img src="https://i.ibb.co/q3Nq7fyf/Whats-App-Image-2026-01-23-at-12-11-23-PM-1.jpg" alt="Whats-App-Image-2026-01-23-at-12-11-23-PM-1" border="0"></a>
+                        <a href="https://ibb.co/pBfVb808"><img src="https://i.ibb.co/q3Nq7fyf/Whats-App-Image-2026-01-23-at-12-11-23-PM-1.jpg" alt="Whats-App-Image-2026-01-23-at-12-11-23-PM-1" border=[...]
                         
                     </div>
                    
@@ -443,23 +454,13 @@
         // ║                                                            ║
         // ╚════════════════════════════════════════════════════════════╝
 
-        // ─────────────────────────────────────────────────────────────
         // 📅 FECHA DE INICIO DE SU RELACIÓN
-        // ─────────────────────────────────────────────────────────────
-        // Formato: 'AÑO-MES-DIA' (ejemplo: '2023-02-14' = 14 de febrero 2023)
         const startDate = new Date('2024-04-23T00:00:00'); 
         
-        // ─────────────────────────────────────────────────────────────
         // 💕 INICIALES DE LA PAREJA (aparecen en el árbol)
-        // ─────────────────────────────────────────────────────────────
-        // Ejemplo: "J + M" o "Carlos ♥ María"
         const initials = "Smith ♥ Daniela";
         
-        // ─────────────────────────────────────────────────────────────
         // 💌 MENSAJES DE AMOR (aparecen de forma rotativa)
-        // ─────────────────────────────────────────────────────────────
-        // Puedes agregar, quitar o modificar mensajes
-        // Cada mensaje debe estar entre comillas y separado por coma
         const loveMessages = [
             "Desde que entraste en mi vida, cada momento se ha convertido en una aventura mágica.",
             "Eres mi sol en los días nublados y mi razón para sonreír cada mañana.",
@@ -469,9 +470,53 @@
             "Mi lugar favorito en el mundo es a tu lado.",
             "Gracias por amarme tal como soy.",
             "Eres la mejor cosa que me ha pasado en la vida."
-            // ✅ Puedes agregar más mensajes aquí, ejemplo:
-            // "Tu mensaje personalizado aquí.",
         ];
+
+        // 🔐 Configuración del login
+        const loginConfig = {
+            username: 'daniela',
+            password: 'love',
+            requireName: true
+        };
+
+        // Normaliza cadenas (sin acentos) y en minúsculas
+        const normalize = (s) => s.normalize('NFD').replace(/[ - ]/g, '').trim().toLowerCase();
+
+        // ✅ Lógica del login (NO toca nada de la escena siguiente)
+        function login(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('login-name');
+            const passInput = document.getElementById('login-pass');
+            const errorEl = document.getElementById('login-error');
+            const btn = document.getElementById('login-btn');
+
+            const name = normalize(nameInput.value || '');
+            const pass = passInput.value.trim();
+            const requiredUser = normalize(loginConfig.username);
+
+            // Si se requiere usuario, aceptamos el valor del campo o, si viene vacío, usamos el usuario configurado (daniela)
+            const okUser = !loginConfig.requireName || (name ? name === requiredUser : true);
+            const okPass = !loginConfig.password || pass === loginConfig.password;
+
+            if (!okUser) {
+                errorEl.textContent = 'Usuario incorrecto. Debe ser: "daniela".';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            if (!okPass) {
+                errorEl.textContent = 'Contraseña incorrecta. Debe ser: "love".';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            // OK: ocultar error y avanzar
+            errorEl.classList.add('hidden');
+            btn.disabled = true;
+            btn.textContent = 'Entrando...';
+
+            // Inicia la experiencia (carga la siguiente escena)
+            startExperience();
+        }
 
         // ╔════════════════════════════════════════════════════════════╗
         // ║                                                            ║
